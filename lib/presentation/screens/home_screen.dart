@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_concepts/constants/enums.dart';
 import 'package:flutter_bloc_concepts/logic/cubit/counter_cubit.dart';
-import 'package:flutter_bloc_concepts/presentation/screens/second_screen.dart';
+import 'package:flutter_bloc_concepts/logic/cubit/internet_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -28,8 +29,38 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            BlocBuilder<InternetCubit, InternetState>(
+              bloc: BlocProvider.of<InternetCubit>(context),
+              builder: (context, state) {
+                if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.Wifi) {
+                  return Text(
+                    'Wi-Fi',
+                    style: Theme.of(context).textTheme.headline3.copyWith(
+                          color: Colors.green,
+                        ),
+                  );
+                } else if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.Mobile) {
+                  return Text(
+                    'Mobile',
+                    style: Theme.of(context).textTheme.headline3.copyWith(
+                          color: Colors.green,
+                        ),
+                  );
+                } else if (state is InternetDisconnected) {
+                  return Text(
+                    'Disconnected',
+                    style: Theme.of(context).textTheme.headline3.copyWith(
+                          color: Colors.red,
+                        ),
+                  );
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+            SizedBox(
+              height: 8,
             ),
             BlocConsumer<CounterCubit, CounterState>(
               listener: (context, state) {
@@ -56,10 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            SizedBox(
-              height: 8,
-            ),
-            Row(
+            /*Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
@@ -80,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Icon(Icons.add),
                 ),
               ],
-            ),
+            ),*/
             SizedBox(
               height: 24,
             ),
