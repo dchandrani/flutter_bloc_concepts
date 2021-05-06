@@ -1,10 +1,10 @@
 part of 'settings_cubit.dart';
 
-class SettingsState {
+class SettingsState extends Equatable {
   final bool appNotifications;
   final bool emailNotifications;
 
-  SettingsState({
+  const SettingsState({
     @required this.appNotifications,
     @required this.emailNotifications,
   });
@@ -18,4 +18,7 @@ class SettingsState {
       emailNotifications: emailNotifications ?? this.emailNotifications,
     );
   }
+
+  @override
+  List<Object> get props => [appNotifications, emailNotifications];
 }

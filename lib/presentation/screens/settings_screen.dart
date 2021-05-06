@@ -21,33 +21,38 @@ class SettingsScreen extends StatelessWidget {
 
         ScaffoldMessenger.of(context).showSnackBar(notificationSnackBar);
       },
-      child: BlocBuilder<SettingsCubit, SettingsState>(
-        builder: (context, state) {
-          return Container(
-            child: Column(
-              children: [
-                SwitchListTile(
-                  value: state.appNotifications,
-                  onChanged: (newValue) {
-                    context
-                        .read<SettingsCubit>()
-                        .toggleAppNotifications(newValue);
-                  },
-                  title: Text('App Notifications'),
-                ),
-                SwitchListTile(
-                  value: state.emailNotifications,
-                  onChanged: (newValue) {
-                    context
-                        .read<SettingsCubit>()
-                        .toggleEmailNotifications(newValue);
-                  },
-                  title: Text('Email Notifications'),
-                ),
-              ],
-            ),
-          );
-        },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Settings'),
+        ),
+        body: BlocBuilder<SettingsCubit, SettingsState>(
+          builder: (context, state) {
+            return Container(
+              child: Column(
+                children: [
+                  SwitchListTile(
+                    value: state.appNotifications,
+                    onChanged: (newValue) {
+                      context
+                          .read<SettingsCubit>()
+                          .toggleAppNotifications(newValue);
+                    },
+                    title: Text('App Notifications'),
+                  ),
+                  SwitchListTile(
+                    value: state.emailNotifications,
+                    onChanged: (newValue) {
+                      context
+                          .read<SettingsCubit>()
+                          .toggleEmailNotifications(newValue);
+                    },
+                    title: Text('Email Notifications'),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
